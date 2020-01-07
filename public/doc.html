@@ -1,0 +1,212 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Piku Documentation - Documentation of Piku Micro PaaS</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link href="https://fonts.googleapis.com/css?family=Nunito+Sans:300,400,600,700,800,900" rel="stylesheet">
+    <link rel="stylesheet" href="scribbler-global.css">
+    <link rel="stylesheet" href="scribbler-doc.css">
+    <link rel="author" href="humans.txt">
+  </head>
+  <body>
+    <div class="doc__bg"></div>
+    <nav class="header">
+      <h1 class="logo">Piku <span class="logo__thin">Docs</span></h1>
+      <ul class="menu">
+        <div class="menu__item toggle"><span></span></div>
+        <li class="menu__item"><a href="" class="link link--dark"><i class="fa fa-github"></i> Github</a></li>
+        <li class="menu__item"><a href="index.html" class="link link--dark"><i class="fa fa-home"></i> Home</a></li>
+      </ul>
+    </nav>
+    <div class="wrapper">
+      <aside class="doc__nav">
+        <ul>
+          <li class="js-btn selected">Get Started</li>
+          <li class="js-btn">Dependencies</li>
+          <li class="js-btn">Usage</li>
+          <li class="js-btn">Issues</li>
+        </ul>
+      </aside>
+      <article class="doc__content">
+        <section class="js-section">
+          <h3 class="section__title">Get Started</h3>
+          <p>Learn how to configure set up Piku in your server and configure it to run your applications.</p>
+          <h3 class="section__title">Installation</h3>
+          <div class="code__block code__block--notabs">
+            <p>
+              To use piku you need a VPS, Raspberry Pi, or other server bootstrapped with piku's requirements. You can use a single server to run multiple piku apps.
+              <strong>Warning:</strong> You should use a fresh server or VPS instance without anything important running on it already, as piku-bootstrap will make changes to configuration files, running services, etc. 
+              Once you've got a fresh server, download the piku-bootstrap shell script onto your local machine and run it:
+              <div class="code__block code__block--notabs">
+                <pre class="code code--block">
+                  <code>
+                    piku@jmatrix:curl https://piku.github.io/get | sh
+                  </code>
+                </pre>
+              </div>
+              The first time it is run piku-bootstrap will install itself into ~/.piku-bootstrap on your local machine and set up a virtualenv there with the dependencies it requires. It will only need to do this once.
+              The script will display a usage message and you can then bootstrap your server:
+              <div class="code__block code__block--notabs">
+                <pre class="code code--block">
+                  <code>
+                    jmatrix@jmatrix:./piku-bootstrap piku@jmatrix
+                  </code>
+                </pre>
+              </div>
+              If you put the piku-bootstrap script on your PATH somewhere, you can use it again to provision other servers in the future.
+            </p>
+          </div>
+          <hr />
+        </section>
+        <section class="js-section">
+          <h3 class="section__title">Installing Other Dependencies</h3>
+          <p>piku-bootstrap uses Ansible internally and it comes with several extra built-in playbooks which you can use to bootstrap common components onto your piku server.
+            Use piku-bootstrap list-playbooks to show a list of built-in playbooks, and then to install one add it as an argument to the bootstrap command.<br>
+            For example, to deploy nodeenv onto your server:
+            <div class="code__block code__block--notabs">
+              <pre class="code code--block">
+                <code>
+                  jmatrix@jmatrix:piku-bootstrap piku@jmatrix nodeenv.yml
+                </code>
+              </pre>
+            </div>
+            You can also use piku-bootstrap to run your own Ansible playbooks like this:
+            <div class="code__block code__block--notabs">
+              <pre class="code code--block">
+                <code>
+                  jmatrix@jmatrix:piku-bootstrap piku@jmatrix ./myplaybook.yml
+                </code>
+              </pre>
+            </div>
+          </p>
+          <hr />
+        </section>
+        <section class="js-section">
+          <h3 class="section__title">Using Piku</h3>
+          <p>Piku supports a Heroku-like workflow, like so:<br>
+            <strong>1.</strong> Create a git SSH remote pointing to your piku server with the app name as repo name. git remote add piku piku@yourserver:appname.<br>
+            <strong>2.</strong> Push your code: git push piku master.<br>
+            <strong>3.</strong> piku determines the runtime and installs the dependencies for your app (building whatever's required).<br>
+            - For Python, it segregates each app's dependencies into a virtualenv.<br>
+            - For Go, it defines a separate GOPATH for each app.<br>
+            - For Node, it installs whatever is in package.json into node_modules.<br>
+            - For Java, it builds your app depending on either pom.xml or build.gradle file.<br>
+            <strong>4.</strong> It then looks at a Procfile which is documented here and starts the relevant workers using uWSGI as a generic process manager.<br>
+            <strong>5.</strong> You can optionally also specify a release worker which is run once when the app is deployed.<br>
+            <strong>6.</strong> You can then remotely change application settings (config:set) or scale up/down worker processes (ps:scale).<br>
+            <strong>7.</strong> You can also bake application settings into a file called ENV which is documented here.<br>
+            <strong>8.</strong> A static worker type, with the root path as the argument, can be used to deploy a gh-pages style static site.<br>
+          </p>
+          <h3 class="section__title">Piku Client</h3>
+          <p>
+            To make life easier you can also install the piku helper CLI. Install it into your path e.g. ~/bin to run it from anywhere.
+            <div class="code__block code__block--notabs">
+              <pre class="code code--block">
+                <code>
+                  ./piku-bootstrap install-cli ~/bin
+                  </code>
+              </pre>
+            </div>
+            This shell script makes working with piku remotes a bit simpler. If you have a git remote called piku in the current folder it will infer the remote server and app name and insert those into the remote piku commands. This allows you to execute commands like the following on your running remote app:
+            <div class="code__block code__block--notabs">
+              <pre class="code code--block">
+                <code>
+                  $ piku logs
+                  $ piku config:set MYVAR=12
+                  $ piku stop
+                  $ piku deploy
+                  $ piku destroy
+                  $ piku # <- will show help for the remote app
+                  </code>
+              </pre>
+            </div>
+            You can pass flags through to the underlying SSH command, for example -t to run interactive commands remotely, and -A to proxy authentication credentials in order to do remote git pulls.
+            Here is an example of using the -t flag to obtain a bash shell in the app directory of one of your Piku apps:
+            <div class="code__block code__block--notabs">
+              <pre class="code code--block">
+                <code>
+                  $ piku -t run bash
+                  Piku remote operator.
+                  Server: piku@cloud.mccormickit.com
+                </code>
+              </pre>
+            </div>
+            App: dashboard
+            <div class="code__block code__block--notabs">
+              <pre class="code code--block">
+                <code>
+                  piku@piku:~/.piku/apps/dashboard$ ls
+                  data  ENV  index.html  package.json  package-lock.json  Procfile  server.wisp
+                  </code>
+              </pre>
+            </div>
+            Tip: If you put this piku script on your PATH you can use the piku command across multiple apps on your local.
+          </p>
+          <h3 class="section__title">Procfiles and ENVs</h3>
+          <p>
+            An app is simply a git repository with some additional files on the top level, the most important of which is the Procfile.<br>
+            <strong>Procfile format</strong><br>
+            Piku recognizes three kinds of process declarations in the Procfile:<br>
+            A) wsgi workers, in the format dotted.module:entry_point (Python-only)<br>
+            B) web workers, which can be anything that honors the PORT environment variable<br>
+            C) static workers, which simply mount the first argument as the root static path<br>
+            D) worker processes, which are standalone workers and can have arbitrary names<br>
+            So a Python application could have a Procfile like such:<br>
+            <div class="code__block code__block--notabs">
+              <pre class="code code--block">
+                <code>
+                  wsgi: module.submodule:app
+                  worker: python long_running_script.py 
+                  fetcher: python fetcher.py
+                </code>
+              </pre>
+            </div>
+            ...whereas a generic app would be:
+            <div class="code__block code__block--notabs">
+              <pre class="code code--block">
+                <code>        
+                  web: embedded_server --port $PORT
+                  worker: background_worker
+                </code>
+              </pre>
+            </div>
+            Any worker will be automatically respawned upon failure (uWSGI will automatically shun/throttle crashy workers).<br>
+
+            <strong>ENV settings</strong><br>
+            Since piku is targeted at 12 Factor apps, it allows you to set environment variables in a number of ways, the simplest of which is by adding an ENV file to your repository:<br>
+            <div class="code__block code__block--notabs">
+              <pre class="code code--block">
+                <code>
+                  SETTING1=foo
+                  # piku supports comments and variable expansion
+                  SETTING2=${SETTING1}/bar
+                  # if this isn't defined, piku will assign a random TCP port
+                  PORT=9080
+                </code>
+              </pre>
+            </div>
+            Environment variables can be changed after deployment using config:set.<br>
+          </p>
+          <hr />
+        </section>
+        <section class="js-section">
+          <h3 class="section__title">Issues and Contributions</h3>
+          <p>
+            If you encounter issues while using Piku please submit the issue report on Piku's github section.
+          </p>
+          <p>
+            If you wish to contribute, fork the main <a href="https;//github.com/piku/piku"> Piku Repo</a> and create a pull request.
+          </p>
+        </section>
+      </article>
+    </div>
+
+    <footer class="footer">Piku Documentation Using Scribbler Template for <a href="https://github.com/piku/piku" target="_blank" class="link link--light">Piku Micro PaaS</a>.</footer>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+    <script src="scribbler.js"></script>
+  </body>
+</html>

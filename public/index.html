@@ -1,0 +1,106 @@
+<!doctype html>
+<html>
+  <head>
+      <meta charset="utf-8">
+      <meta name="description" content="">
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      <title>Piku Documentation - Documentation of Piku Micro PaaS</title>
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+      <link href="https://fonts.googleapis.com/css?family=Nunito+Sans:300,400,600,700,800,900" rel="stylesheet">
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/railscasts.min.css">
+      <link rel="stylesheet" href="scribbler-global.css">
+      <link rel="stylesheet" href="scribbler-landing.css">
+      <link rel="author" href="humans.txt">
+  </head>
+  <body>
+    <nav>
+      <div class="logo"></div>
+      <ul class="menu">
+        <div class="menu__item toggle"><span></span></div>
+        <li class="menu__item"><a href="doc.html" class="link link--dark"><i class="fa fa-book"></i> Documentation</a></li>
+        <li class="menu__item"><a href="" class="link link--dark"><i class="fa fa-github"></i> Github</a></li>
+      </ul>
+    </nav>
+    <div class="hero">
+      <h1 class="hero__title">Piku</h1>
+      <p class="hero__description">Deploy applications easily on the Raspberry Pi</p>
+    </div>
+    <div class="hero__terminal">
+      <pre>
+        <!-- Place your demo code here -->
+        <code class="shell-session demo">jmatrix@jmatrix:~/piku-workspace/sample-clojure-app$ </code>
+      </pre>
+    </div>
+    <div class="wrapper">
+      <div class="installation">
+        <h3 class="section__title">Installation</h3>
+        <div class="tab__container">
+          <ul class="tab__menu">
+            <li class="tab active" data-tab="mac">mac</li>
+            <li class="tab" data-tab="linux">linux</li>
+            <li class="tab" data-tab="win">win</li>
+          </ul>
+          <pre class="nohighlight code">
+            <code class="tab__pane active mac">$  curl https://piku.github.io/get | sh</code>
+            <code class="tab__pane linux">$  curl https://piku.github.io/get | sh</code>
+            <code class="tab__pane win">$  curl https://piku.github.io/get | sh</code>
+          </pre>
+        </div>
+      </div>
+      <div class="feature">
+        <div class="feature__item">
+          <h3 class="section__title">Fast & Light</h3>
+          <p>Piku is a lightweight and fast script that runs in Rasberry Pi and anything that is Linux/Unix.</p>
+        </div>
+        <div class="feature__item">
+          <h3 class="section__title">File Syncing</h3>
+          <p>Piku is built on top of git and thus helps you to depl,oy with version control.</p>
+        </div>
+        <div class="feature__item">
+          <h3 class="section__title">Secure</h3>
+          <p>Piku uses Let's Encrypt to secure your applications.</p>
+        </div>
+        <div class="feature__item">
+          <h3 class="section__title">Configuration</h3>
+          <p>Maintain all your settings in a single <span class="code code--inline">Procfile/ENV</span> file. Never need to redo.</p>
+        </div>
+        <div class="feature__item">
+          <h3 class="section__title">Highlightings</h3>
+          <p>For better readability, Piku assigns different colors to flags from the remote output.</p>
+        </div>
+        <div class="feature__item">
+          <h3 class="section__title">Sependencies</h3>
+          <p>Piku supports dependencies that help you customize your apps including databases! </p>
+        </div>
+      </div>
+      <div class="callout">
+        <p>Read our documentation for more advanced usage of Piku</p>
+        <a href="doc.html" class="button--primary">Documentation</a>
+      </div>
+    </div>
+    <div class="changelog">
+      <div class="wrapper">
+        <h3 class="section__title">Changelog</h3>
+        <div class="changelog__item">
+          <div class="changelog__meta">
+            <h4 class="changelog__title">beta</h4>
+            <small class="changelog__date">1/7/2020</small>
+          </div>
+          <div class="changelog__detail">
+            <ul>
+              <li>Added Rubby support</li>
+              <li>Documentation updates</li>
+            </ul>
+          </div>
+        </div>
+        <div class="changelog__callout">
+          <a href="#" class="button--secondary">Checkout Full Log</a>
+        </div>
+      </div>
+    </div>
+    <footer class="footer">Piku Documentation Using Scribbler Template for <a href="https://github.com/piku/piku" target="_blank" class="link link--light">Piku Micro PaaS</a>.</footer>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+    <script src="scribbler.js"></script>
+  </body>
+</html>
