@@ -17,6 +17,8 @@ git push piku master
 ## Insights
 This project was a result of testing Ruby and Rails support in Piku.
 
+[![asciicast](https://asciinema.org/a/292231.svg)](https://asciinema.org/a/292231)
+
 ## Contributing
 Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
 
