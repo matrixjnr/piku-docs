@@ -14,7 +14,7 @@ git commit -am "Your Message"
 git push piku master
 
 ```
-##Insights
+## Insights
 This project was a result of testing Ruby and Rails support in Piku.
 
 ## Contributing
