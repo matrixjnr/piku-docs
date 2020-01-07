@@ -1,2 +1,1 @@
-rwsgi: bundle exec server.rb
-worker: ruby tasks.rb
+rwsgi: bundle exec rackup server.rb
